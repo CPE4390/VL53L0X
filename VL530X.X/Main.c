@@ -9,6 +9,10 @@
 #pragma config WDTEN=OFF
 #pragma config XINST=OFF
 
+//Pins
+//SCL = RD6
+//SDA = RD5
+//INT = RB1
 
 void InitPins(void);
 void ConfigInterrupts(void);
@@ -17,7 +21,6 @@ VL53L0X_Dev_t dev;
 VL53L0X_Version_t Version;
 VL53L0X_DeviceInfo_t devInfo;
 
-char lcdstr[17];
 int getRange(void);
 int doInit(void);
 
@@ -38,25 +41,17 @@ void main(void) {
     InitVL53L0X_I2C(&dev);
     status = VL53L0X_DataInit(&dev);
     status = VL53L0X_GetDeviceInfo(&dev, &devInfo);
-    sprintf(lcdstr, "status=%d", status);
-    LCDClearLine(0);
-    LCDWriteLine(lcdstr, 0);
-    sprintf(lcdstr, "%s", devInfo.Name);
-    LCDClearLine(0);
-    LCDWriteLine(lcdstr, 0);
+    lprintf(1, "status=%d", status);
+    lprintf(0, "%s", devInfo.Name);
     status = doInit();
     if (status != VL53L0X_ERROR_NONE) {
-        sprintf(lcdstr, "Error=%d", status);
-        LCDClearLine(1);
-        LCDWriteLine(lcdstr, 1);
+        lprintf(1, "Error=%d", status);
         while(1);
     }
     while (1) {
         status = getRange();
-        sprintf(lcdstr, "Range=%d mm", status);
-        LCDClearLine(1);
-        LCDWriteLine(lcdstr, 1);
-        for (i = 0; i < 30000; ++i);
+        lprintf(1, "Range=%d mm", status);
+        __delay_ms(300);
         ++count;
         if (count > 1000) {
             status = VL53L0X_PerformRefCalibration(&dev, &VhvSettings, &PhaseCal);
@@ -121,7 +116,7 @@ void ConfigInterrupts(void) {
     //INTCONbits.GIE = 1; //Turn on interrupts
 }
 
-void interrupt HighIsr(void) {
+void __interrupt(high_priority) HighIsr(void) {
 
     //Check the source of the interrupt
     if (INTCON3bits.INT1IF == 1) {

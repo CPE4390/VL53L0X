@@ -157,26 +157,3 @@ void VL53L0X_pollingDelay(void) {
     __delay_ms(5);
 }
 
-//char ReadRegister(char reg) {
-//    char data;
-//    SSP2CON2bits.SEN = 1; //Start condition
-//    while (SSP2CON2bits.SEN == 1);
-//    data = SSP2BUF; //Read SSPxBUF to make sure BF is clear
-//    SSP2BUF = VL530X_ADDRESS; //address with R/W clear for write
-//    while (SSP2STATbits.BF || SSP2STATbits.R_W);
-//    SSP2BUF = reg; //Send register address
-//    while (SSP2STATbits.BF || SSP2STATbits.R_W);
-//    SSP2CON2bits.RSEN = 1; //Restart
-//    while (SSP2CON2bits.RSEN == 1);
-//    SSP2BUF = VL530X_ADDRESS | 1; //address with R/W set for read
-//    while (SSP2STATbits.BF || SSP2STATbits.R_W);
-//    SSP2CON2bits.RCEN = 1; // enable master for 1 byte reception
-//    while (!SSP2STATbits.BF); // wait until byte received
-//    data = SSP2BUF;
-//    SSP2CON2bits.ACKDT = 1; //Last byte so NACK
-//    SSP2CON2bits.ACKEN = 1; //Send ACK
-//    while (SSP2CON2bits.ACKEN != 0);
-//    SSP2CON2bits.PEN = 1; //Stop condition
-//    while (SSP2CON2bits.PEN == 1);
-//    return data;
-//}

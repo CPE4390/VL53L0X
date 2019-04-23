@@ -1,10 +1,3 @@
-/* 
- * File:   VL530X.h
- * Author: Brad
- *
- * Created on April 7, 2017, 5:28 PM
- */
-
 #ifndef VL53L0X_H
 #define	VL53L0X_H
 
@@ -17,7 +10,7 @@
 //INT = RB1
 
 #define VL53L0X_ADDRESS     0x52
-#define _XTAL_FREQ 40000000L
+#define _XTAL_FREQ 32000000L
 
 #ifdef	__cplusplus
 extern "C" {
