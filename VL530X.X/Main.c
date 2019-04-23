@@ -12,7 +12,6 @@
 //Pins
 //SCL = RD6
 //SDA = RD5
-//INT = RB1
 
 void InitPins(void);
 void ConfigInterrupts(void);
